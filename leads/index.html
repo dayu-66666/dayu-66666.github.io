@@ -75,13 +75,25 @@
     font-size: 15px; line-height: 1.6;
   }
   button, input, select { font-family: inherit; }
-  .wrap { max-width: 640px; margin: 0 auto; padding: 20px 14px calc(96px + env(safe-area-inset-bottom)); }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 20px 14px calc(40px + env(safe-area-inset-bottom)); }
 
   /* ---- header ---- */
-  header.top { padding: 2px 4px 14px; }
-  .top h1 { font-size: 24px; font-weight: 800; margin: 0; letter-spacing: .02em; }
+  header.top {
+    padding: 2px 4px 14px; display: flex; align-items: center;
+    justify-content: space-between; gap: 12px;
+  }
+  .top h1 { font-size: 22px; font-weight: 800; margin: 0; letter-spacing: .02em; }
   .top h1 .spark { color: var(--accent); }
   .top .sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
+  .btn-add {
+    background: var(--accent); color: var(--accent-ink); border: none; cursor: pointer;
+    border-radius: 999px; padding: 11px 18px 11px 14px; flex-shrink: 0;
+    font-size: 15px; font-weight: 700; letter-spacing: .02em;
+    box-shadow: 0 3px 10px color-mix(in srgb, var(--accent) 40%, transparent);
+    display: flex; align-items: center; gap: 5px;
+  }
+  .btn-add:active { transform: scale(.97); }
+  .btn-add .plus { font-size: 18px; line-height: 1; font-weight: 600; }
 
   /* ---- sticky toolbar: search + tabs ---- */
   .toolbar {
@@ -237,18 +249,6 @@
   }
   .foot button { border: none; background: none; color: var(--muted); font-size: 12.5px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; padding: 4px; }
 
-  /* ---- FAB ---- */
-  .fab {
-    position: fixed; right: 18px; bottom: calc(22px + env(safe-area-inset-bottom)); z-index: 6;
-    background: var(--accent); color: var(--accent-ink); border: none; cursor: pointer;
-    border-radius: 999px; padding: 14px 22px 14px 18px;
-    font-size: 15.5px; font-weight: 700; letter-spacing: .02em;
-    box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 45%, transparent);
-    display: flex; align-items: center; gap: 6px;
-  }
-  .fab:active { transform: scale(.97); }
-  .fab .plus { font-size: 19px; line-height: 1; font-weight: 600; }
-
   /* ---- dialog / bottom sheet ---- */
   dialog {
     border: none; border-radius: 18px; padding: 0;
@@ -291,7 +291,7 @@
 
   /* ---- toast ---- */
   .toast {
-    position: fixed; left: 50%; bottom: calc(92px + env(safe-area-inset-bottom));
+    position: fixed; left: 50%; bottom: calc(28px + env(safe-area-inset-bottom));
     transform: translateX(-50%) translateY(8px); z-index: 9;
     background: var(--ink); color: var(--bg); font-size: 14px;
     padding: 9px 18px; border-radius: 999px; opacity: 0; pointer-events: none;
@@ -302,15 +302,18 @@
   button:focus-visible, .card-main:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .toast, .fab { transition: none; }
+    .toast, .btn-add { transition: none; }
   }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
-    <h1>线索跟进<span class="spark">·</span>星探本</h1>
-    <div class="sub" id="summary"></div>
+    <div>
+      <h1>线索跟进<span class="spark">·</span>星探本</h1>
+      <div class="sub" id="summary"></div>
+    </div>
+    <button class="btn-add" id="btnAdd"><span class="plus">＋</span>新增线索</button>
   </header>
 
   <div class="toolbar">
@@ -332,7 +335,6 @@
   </footer>
 </div>
 
-<button class="fab" id="btnAdd"><span class="plus">＋</span>新增线索</button>
 <div class="toast" id="toast"></div>
 
 <dialog id="dlg">
